@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-Hant-TW"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>中華民國文化復興聯盟</title>
+<meta name="description" content="傳承中華民國正統，重讀三民主義，守護自由的生活方式。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* 版面：單欄閱讀，報頭用民國紀年，梅花為唯一裝飾 */
+:root{
+  --paper:#f4f5f7; --surface:#ffffff; --ink:#151c2e; --muted:#59617a;
+  --navy:#1b2a5c; --plum:#b8232f; --line:#d9dce5; --on-navy:#f4f5f7;
+  --display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#10131c; --surface:#171b27; --ink:#e8eaf0; --muted:#9aa1b5;
+  --navy:#0b1230; --plum:#e0545e; --line:#2a3042; --on-navy:#e8eaf0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#10131c; --surface:#171b27; --ink:#e8eaf0; --muted:#9aa1b5;
+  --navy:#0b1230; --plum:#e0545e; --line:#2a3042; --on-navy:#e8eaf0; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.85}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.mast{background:var(--navy);color:var(--on-navy)}
+header.mast .wrap{padding-block:48px 40px;display:grid;gap:14px}
+.date{font-size:14px;letter-spacing:.12em;opacity:.8}
+h1.name{font-family:var(--display);font-weight:900;font-size:clamp(32px,7vw,52px);line-height:1.2;margin:0;text-wrap:balance;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.plum{width:1em;height:1em;flex:none}
+.plum circle{fill:var(--plum)} .plum .core{fill:var(--on-navy)}
+.tagline{margin:0;font-size:18px;opacity:.9;max-width:34em}
+nav.follow{display:flex;gap:10px;flex-wrap:wrap;font-size:14px}
+nav.follow a{color:var(--on-navy);border:1px solid color-mix(in srgb,var(--on-navy) 40%,transparent);padding:4px 12px;border-radius:999px;text-decoration:none}
+nav.follow a:hover,nav.follow a:focus-visible{background:color-mix(in srgb,var(--on-navy) 15%,transparent);outline:none}
+main .wrap{padding-block:40px 64px;display:grid;gap:48px}
+.index h2,.about h2{font-family:var(--display);font-size:15px;letter-spacing:.2em;color:var(--plum);margin:0 0 12px}
+.index ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.index li{border-bottom:1px solid var(--line)}
+.index a{display:grid;gap:2px;padding:16px 0;color:inherit;text-decoration:none}
+.index a:hover .t,.index a:focus-visible .t{color:var(--plum)}
+.index .k{font-size:13px;color:var(--muted);letter-spacing:.08em}
+.index .t{font-family:var(--display);font-weight:600;font-size:21px;line-height:1.4}
+article{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:32px clamp(18px,5vw,40px);min-width:0}
+article .k{font-size:13px;color:var(--plum);letter-spacing:.12em}
+article h1{font-family:var(--display);font-weight:900;font-size:clamp(26px,5vw,34px);line-height:1.35;margin:6px 0 12px;text-wrap:balance}
+article .lede{color:var(--muted);font-size:18px;margin:0 0 8px}
+article h2{font-family:var(--display);font-weight:600;font-size:22px;margin:32px 0 4px;text-wrap:balance}
+article p,article li{margin:10px 0}
+article ol,article ul{padding-left:1.4em}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+.stance{font-size:13px;color:var(--muted);margin-top:28px;padding-top:12px;border-top:1px dashed var(--line)}
+.timeline{display:grid;gap:12px;margin:12px 0}
+.timeline div{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:baseline}
+.timeline b{font-family:var(--display);font-size:20px;color:var(--plum);font-variant-numeric:tabular-nums}
+.timeline span{min-width:0}
+.about p{margin:0;color:var(--muted)}
+footer{border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{padding-block:24px 40px}
+a{color:var(--plum)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head><body>
+<header class="mast"><div class="wrap">
+<div class="date">民國115年10月25日</div>
+<h1 class="name"><svg class="plum" viewBox="-50 -50 100 100" aria-hidden="true"><circle r="20" cx="0" cy="-27" transform="rotate(0)"/><circle r="20" cx="0" cy="-27" transform="rotate(72)"/><circle r="20" cx="0" cy="-27" transform="rotate(144)"/><circle r="20" cx="0" cy="-27" transform="rotate(216)"/><circle r="20" cx="0" cy="-27" transform="rotate(288)"/><circle r="9" class="core"/></svg>中華民國文化復興聯盟</h1>
+<p class="tagline">傳承中華民國正統，重讀三民主義，守護自由的生活方式。</p>
+<nav class="follow" aria-label="社群帳號">
+<a href="https://www.instagram.com/roc.revival/">Instagram @roc.revival</a>
+<a href="https://www.threads.net/@roc.revival">Threads @roc.revival</a>
+</nav>
+</div></header>
+<main><div class="wrap">
+<section class="about"><h2>關於聯盟</h2><p>本聯盟為民間自發團體，與任何政府機關、政黨或既有組織均無隸屬關係。站上文章皆為本聯盟立場，引用皆附出處。</p></section>
+<section class="index"><h2>文章</h2><ol><li><a href="#manifesto"><span class="k">聯盟宣言・民國115年10月25日</span><span class="t">中華民國文化復興聯盟成立宣言</span></a></li><li><a href="#three-principles"><span class="k">重讀三民主義・民國115年10月25日</span><span class="t">十分鐘讀懂三民主義</span></a></li><li><a href="#constitutional-road"><span class="k">中華民國史・民國115年10月25日</span><span class="t">從民國元年到今天：中華民國的憲政之路</span></a></li></ol></section>
+
+<article id="manifesto">
+<div class="k">聯盟宣言・民國115年10月25日</div>
+<h1>中華民國文化復興聯盟成立宣言</h1>
+<p class="lede">我們是一群認同中華民國的公民，在民國一一五年十月成立這個民間聯盟。這篇說明我們相信什麼、要做什麼，以及我們給自己定的規矩。</p>
+
+<p>「中華民國文化復興聯盟」是民間自發成立的團體，與任何政府機關、政黨或既有組織都沒有隸屬關係。本站與聯盟社群帳號上的文章，代表的是本聯盟的立場。</p>
+
+<h2>名字的由來</h2>
+<p>民國五十五年（1966 年），中國大陸爆發文化大革命，「破四舊」運動大規模摧毀古蹟、典籍與傳統習俗。同年十一月，政府在臺灣發起「中華文化復興運動」，以保存與推廣中華文化作為回應。我們借用「文化復興」四個字，是想延續那份精神：在臺澎金馬這片土地上，守住正體字、經典與禮俗，也守住自由的生活方式。</p>
+<p class="note">說明：當年推動運動的「中華文化復興運動推行委員會」後來改組為今天的「中華文化總會」。本聯盟與該會沒有任何關係。</p>
+
+<h2>我們相信的三件事</h2>
+<ol>
+<li><strong>中華民國是延續的國家。</strong>民國元年（1912 年）建立至今，國號、憲法與政府從未中斷。它不是歷史名詞，而是今天仍在運作的民主共和國。</li>
+<li><strong>三民主義仍是好的尺度。</strong>《中華民國憲法》第一條寫著：「中華民國基於三民主義，為民有民治民享之民主共和國。」民族平等、主權在民、民生均富，到今天仍可用來檢驗政治。</li>
+<li><strong>反共是為了守護自由。</strong>共產極權以一黨專政取代人民主權，與民權主義根本相違。我們反對的是這套制度，不是任何一個民族或個人。</li>
+</ol>
+
+<h2>我們要做的事</h2>
+<ul>
+<li>以史料為根據，介紹中華民國的歷史與憲政發展。</li>
+<li>用白話重讀孫中山先生的三民主義原典。</li>
+<li>推廣正體字、經典閱讀與傳統節慶。</li>
+<li>在公共討論中提出有根據的論點，回應錯誤資訊。</li>
+</ul>
+
+<h2>我們的規矩</h2>
+<ul>
+<li>引用必註出處，查不到來源的說法不用。</li>
+<li>不冒用任何個人或機構的名義。</li>
+<li>歡迎不同意見，但不做人身攻擊，也不散播仇恨。</li>
+<li>歷史有光明也有陰影，我們兩者都不迴避。</li>
+</ul>
+<p>如果你也認同這些理念，歡迎追蹤我們的 Instagram 與 Threads，一起把這些故事說下去。</p>
+
+<p class="stance">本文由中華民國文化復興聯盟撰寫，代表本聯盟立場。</p>
+</article>
+<article id="three-principles">
+<div class="k">重讀三民主義・民國115年10月25日</div>
+<h1>十分鐘讀懂三民主義</h1>
+<p class="lede">三民主義常被當成考試科目背誦，其實它是一套關於國家、民主與經濟的完整主張。我們用白話整理原典的重點，並說明它和共產主義的根本差異。</p>
+
+<h2>原典從哪裡來</h2>
+<p>今天讀到的《三民主義》，是孫中山先生在民國十三年（1924 年）於廣州的系列演講紀錄：民族主義六講、民權主義六講、民生主義四講。民生主義講到第四講就中止了，孫先生於隔年三月十二日病逝，這部分始終沒有完成。</p>
+
+<h2>民族主義：對外平等，對內平等</h2>
+<p>民族主義的目標有兩層。對外，是讓國家擺脫不平等條約，在國際上取得平等地位。對內，是國內各民族一律平等，共同組成國家。</p>
+
+<h2>民權主義：人民有權，政府有能</h2>
+<p>民權主義的核心是主權在民。孫先生提出「權能區分」：人民握有選舉、罷免、創制、複決四種「政權」，用來控制政府；政府則分為行政、立法、司法、考試、監察五種「治權」，負責把事做好。今天中華民國的五院制度，就是從這裡來的。</p>
+
+<h2>民生主義：平均地權，節制資本</h2>
+<p>民生主義處理的是經濟問題。方法是「平均地權」與「節制資本」：防止土地漲價的利益被少數人獨占，也防止私人資本壟斷國計民生。臺灣在民國三十八年推行三七五減租、四十二年實施耕者有其田，常被視為平均地權的實踐。</p>
+
+<h2>三民主義和共產主義一樣嗎？</h2>
+<p>這是最常被問的問題。孫先生在民生主義第一講確實說過：「民生主義就是社會主義，又名共產主義，即是大同主義。」這句話常被拿來證明兩者相同。</p>
+<p>但在同一講裡，他也明白反對馬克思的階級鬥爭學說，說：「階級戰爭不是社會進化的原因，階級戰爭是社會當進化的時候所發生的一種病症。」他主張用和平、漸進、由國家調節的方法解決民生問題，而不是暴力革命。</p>
+<p>更根本的差別在民權。三民主義要求主權在民、人民有四權可以控制政府；共產黨的一黨專政，則把權力集中在黨，人民無法用選票撤換統治者。<strong>本聯盟認為，這正是三民主義與共產極權無法相容的地方。</strong></p>
+
+<h2>今天讀三民主義的意義</h2>
+<p>《中華民國憲法》第一條至今仍寫著「中華民國基於三民主義」。不論你同不同意每一個細節，它都提供了一組具體的問題：國家對外是否平等？人民能否真正控制政府？經濟成果是否由全民共享？這些問題，今天一樣值得問。</p>
+<p class="note">資料來源：孫文《三民主義》（1924 年演講紀錄）；《中華民國憲法》第一條。以上詮釋為本聯盟觀點。</p>
+
+<p class="stance">本文由中華民國文化復興聯盟撰寫，代表本聯盟立場。</p>
+</article>
+<article id="constitutional-road">
+<div class="k">中華民國史・民國115年10月25日</div>
+<h1>從民國元年到今天：中華民國的憲政之路</h1>
+<p class="lede">十月二十五日是臺灣光復的日子。我們整理中華民國從建立、遷臺到民主化的關鍵年份，也說明我們為什麼認為這段歷史證明了反共的價值。</p>
+
+<p>中華民國的歷史常被簡化成幾個口號。我們想用年份與事實，把這條路完整走一遍。</p>
+
+<h2>關鍵年份</h2>
+<div class="timeline">
+<div><b>1912</b><span>民國元年元月一日，中華民國臨時政府在南京成立，孫中山先生就任臨時大總統。</span></div>
+<div><b>1945</b><span>民國三十四年十月二十五日，臺灣地區受降典禮在臺北公會堂（今中山堂）舉行，臺灣光復。</span></div>
+<div><b>1947</b><span>民國三十六年元旦公布《中華民國憲法》，同年十二月二十五日施行。</span></div>
+<div><b>1948</b><span>國民大會通過《動員戡亂時期臨時條款》，凍結憲法部分條文。</span></div>
+<div><b>1949</b><span>五月臺灣省宣布戒嚴；十月古寧頭戰役守住金門；十二月中央政府遷至臺北。</span></div>
+<div><b>1987</b><span>民國七十六年七月十五日，臺灣地區解除戒嚴。</span></div>
+<div><b>1991</b><span>民國八十年五月一日終止動員戡亂時期，廢止臨時條款，並進行第一次修憲。</span></div>
+<div><b>1992</b><span>立法委員全面改選。</span></div>
+<div><b>1996</b><span>民國八十五年三月二十三日，舉行首次總統直選。</span></div>
+<div><b>2000</b><span>首次中央政府政黨輪替，權力和平轉移。</span></div>
+</div>
+
+<h2>不迴避的陰影</h2>
+<p>戒嚴時期長達三十八年，期間發生白色恐怖，許多人因政治理由受到不公的審判與迫害。這是中華民國歷史的一部分，我們不迴避，也認為應該持續記錄與反省。</p>
+
+<h2>為什麼這段路證明了反共的價值</h2>
+<p>中華民國最可貴的地方，是它能在同一部憲法之下自我修正：解除戒嚴、終止臨時條款、國會全面改選、總統由人民直選，最後政黨和平輪替。每一步都是走向「主權在民」，也就是民權主義的目標。</p>
+<p>對岸走的是另一條路。一黨專政之下，1989 年的六四天安門事件以武力鎮壓了要求民主的學生與市民；2020 年施行的《香港國安法》，讓原本承諾的高度自治名存實亡。制度若不允許人民撤換統治者，錯誤就無法被和平地修正。</p>
+<p><strong>本聯盟認為，反共不是仇恨，而是選擇：選擇一個能被人民監督、能夠自我修正的國家。</strong>中華民國用一百多年的歷史，證明了這條路走得通。</p>
+<p class="note">資料來源：《中華民國憲法》及增修條文；總統府、國史館公開之大事年表。以上評論為本聯盟觀點。</p>
+
+<p class="stance">本文由中華民國文化復興聯盟撰寫，代表本聯盟立場。</p>
+</article>
+</div></main>
+<footer><div class="wrap">© 民國一一五年 中華民國文化復興聯盟。本站內容為本聯盟觀點，歡迎註明出處轉載。</div></footer>
+</body></html>
