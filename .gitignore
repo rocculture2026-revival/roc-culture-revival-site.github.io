@@ -1,2 +1,4 @@
 _preview/
 __pycache__/
+node_modules/
+package*.json
