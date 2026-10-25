@@ -119,7 +119,7 @@ def main():
         iid = item["id"]
         if iid in posted or not item.get("approved"):
             continue
-        if datetime.fromisoformat(item["at"]) > now:
+        if datetime.fromisoformat(item["at"]) > now and not DRY:  # 試跑時連未到時間的也檢查
             continue
         if item.get("expires") and datetime.fromisoformat(item["expires"]) < now:
             print(f"略過 {iid}：已過期（{item['expires']}）")
@@ -127,8 +127,9 @@ def main():
         prefix = "IG_TOKEN" if item["platform"] == "instagram" else "THREADS_TOKEN"
         token = os.environ.get(f"{prefix}_{item['account'].upper()}")
         if not token:
-            print(f"略過 {iid}：還沒設定 {prefix}_{item['account'].upper()}")
-            continue
+            print(f"{'注意' if DRY else '略過'} {iid}：還沒設定 {prefix}_{item['account'].upper()}")
+            if not DRY:
+                continue
         try:
             fn = post_instagram if item["platform"] == "instagram" else post_threads
             msg = fn(item, token)
