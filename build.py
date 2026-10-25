@@ -175,8 +175,8 @@ h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:112px;line-height
 ul{list-style:none;padding:0;display:grid;gap:36px}
 li{font-size:46px;line-height:1.5;padding-left:56px;position:relative}
 li::before{content:"";position:absolute;left:0;top:.45em;width:26px;height:26px;border-radius:50%;background:#b8232f}
-.tl{display:grid;grid-template-columns:200px 1fr;row-gap:22px;font-size:44px;align-items:baseline}
-.tl b{font-family:"Noto Serif TC",serif;color:#b8232f;font-size:54px}
+.tl{display:grid;grid-template-columns:190px 1fr;row-gap:10px;font-size:42px;align-items:baseline}
+.tl b{font-family:"Noto Serif TC",serif;color:#b8232f;font-size:50px}
 blockquote{font-family:"Noto Serif TC",serif;font-size:54px;line-height:1.6;border-left:10px solid #b8232f;padding-left:36px}
 cite{font-size:34px;color:#59617a;font-style:normal}
 .foot{position:absolute;left:100px;right:100px;bottom:70px;display:flex;justify-content:space-between;font-size:28px;opacity:.7}
