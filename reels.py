@@ -14,7 +14,7 @@ body{width:1080px;height:1920px;overflow:hidden;font-family:"Noto Sans TC",sans-
 .k{font-size:46px;letter-spacing:.2em;color:#e0545e;font-weight:700}
 .c.end .k{color:#b8232f}
 h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:124px;line-height:1.3;white-space:pre-line}
-.b{font-size:52px;line-height:1.6;opacity:.9}
+.b{font-size:52px;line-height:1.6;opacity:.9;white-space:pre-line}
 .plum{width:150px;height:150px} .plum circle{fill:#b8232f} .plum .core{fill:#f4f5f7}
 .foot{position:absolute;left:100px;right:100px;bottom:260px;font-size:34px;opacity:.6}
 .bar{position:absolute;left:0;top:0;height:14px;background:#b8232f}
