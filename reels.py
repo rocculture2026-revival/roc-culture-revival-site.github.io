@@ -58,7 +58,11 @@ def build(reel):
     out_dir = os.path.join(ROOT, "docs", "reels")
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, f"{reel['slug']}.mp4")
+    # 加一條無聲音軌：IG 的 Reels 規格要求 AAC 音訊
+    total = sum(c["sec"] for c in cards) - FADE * (len(cards) - 1)
+    args += ["-f", "lavfi", "-t", f"{total:.2f}", "-i", "anullsrc=r=44100:cl=stereo"]
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args, "-filter_complex", ";".join(filt), "-map", f"[{last}]",
+                    "-map", f"{len(cards)}:a", "-c:a", "aac", "-b:a", "128k", "-shortest",
                     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-profile:v", "high", "-r", "30", "-movflags", "+faststart", out], check=True)
     open(os.path.join(out_dir, f"{reel['slug']}.txt"), "w").write(reel["caption"])
     print(out)

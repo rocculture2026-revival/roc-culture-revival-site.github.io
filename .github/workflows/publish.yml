@@ -1,0 +1,37 @@
+# 每 30 分鐘檢查 queue.json，把到時間、approved 為 true 的貼文發到 IG／Threads，結果記在 posted.json。
+name: publish
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "試跑（只檢查，不真的發）"
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency: publish
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 發文
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          IG_TOKEN_MAIN: ${{ secrets.IG_TOKEN_MAIN }}
+          THREADS_TOKEN_MAIN: ${{ secrets.THREADS_TOKEN_MAIN }}
+          IG_TOKEN_PROMO: ${{ secrets.IG_TOKEN_PROMO }}
+          THREADS_TOKEN_PROMO: ${{ secrets.THREADS_TOKEN_PROMO }}
+        run: python3 publish.py ${{ inputs.dry_run && '--dry-run' || '' }}
+      - name: 記錄已發布
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posted.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "記錄已發布貼文" && git pull --rebase && git push)
