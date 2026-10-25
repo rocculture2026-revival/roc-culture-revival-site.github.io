@@ -4,7 +4,7 @@ from content import ARTICLES
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE_NAME = "中華民國文化復興聯盟"
-HANDLE = "roc.revival"  # 帳號註冊後若名稱不同，改這裡
+HANDLE = "roc_culture_revival"  # 帳號註冊後若名稱不同，改這裡
 
 FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">'
 
