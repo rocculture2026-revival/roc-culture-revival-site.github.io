@@ -231,7 +231,7 @@ ARTICLES = [
 <p>填寫<a href="https://docs.google.com/forms/d/e/1FAIpQLScI6Qo_JO9kfKFR99v3GITa6_ukZjVGKZ2G2DKmdboDi1ZyJw/viewform">報名表單</a>，約 5 分鐘。真實姓名只由本部保管，對外可使用化名。我們會在三週內以 Email 回覆你。</p>
 """,
         "ig_slides": [
-            {"kind": "cover", "kicker": "夥伴招募", "head": "一起來\n做點事", "sub": "中華民國文化復興聯盟 開放招募"},
+            {"kind": "cover", "kicker": "夥伴招募", "head": "中華民國\n文化復興聯盟\n開放招募", "sub": "一起來做點事"},
             {"kind": "list", "head": "四個部門", "items": ["宣傳部：社群經營、回覆留言與私訊", "公關部：洽談合作、媒體窗口", "活動部：發想並舉辦線上線下活動", "編輯部：撰文、寫腳本、查證史料"]},
             {"kind": "list", "head": "我們在找這樣的你", "items": ["認同中華民國，願意捍衛自由民主", "會寫、會剪、會設計、會企劃，或只是有熱情", "每週能投入 2 小時以上", "學生、社會人士、退休族都歡迎"]},
             {"kind": "text", "head": "怎麼加入", "body": "點個人檔案連結，\n在網站「加入我們」填寫表單，\n大約 5 分鐘。\n\n真實姓名只由本部保管，\n對外可使用化名。\n\n我們會在三週內以 Email 回覆你。"},
