@@ -27,6 +27,10 @@ jobs:
           THREADS_TOKEN_MAIN: ${{ secrets.THREADS_TOKEN_MAIN }}
           IG_TOKEN_PROMO: ${{ secrets.IG_TOKEN_PROMO }}
           THREADS_TOKEN_PROMO: ${{ secrets.THREADS_TOKEN_PROMO }}
+          FB_PAGE_TOKEN_MAIN: ${{ secrets.FB_PAGE_TOKEN_MAIN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN_MAIN: ${{ secrets.YT_REFRESH_TOKEN_MAIN }}
         run: python3 publish.py ${{ inputs.dry_run && '--dry-run' || '' }}
       - name: 記錄已發布
         if: always()

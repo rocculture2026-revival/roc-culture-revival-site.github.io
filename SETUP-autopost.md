@@ -102,3 +102,82 @@ Threads 用途通常不能和 Instagram 用途放在同一個應用程式，所�
 ### 權杖每 60 天要換一次
 
 長效權杖 60 天後失效。建議每 50 天重做第 3、4 步，然後在 Secrets 用同樣的名稱覆蓋。權杖過期時，Actions 會失敗，GitHub 也會寄信通知你。
+
+---
+
+# 加開 Facebook 粉絲專頁與 YouTube 頻道
+
+`publish.py` 已經支援這兩個平台，`queue.json` 裡把 `platform` 設成 `facebook` 或 `youtube` 就能發。
+
+## Facebook 粉絲專頁
+
+API 只能發到**粉絲專頁**，不能發到個人帳號，所以要開的是粉絲專頁。
+
+### 1. 建立粉絲專頁
+
+1. 用你建 Meta 開發者帳號的那個**新 Facebook 帳號**登入（不要用個人帳號）。
+2. 左側選單「粉絲專頁」→「建立新的粉絲專頁」。名稱填「中華民國文化復興聯盟」，類別選「社群組織」或「非營利組織」。
+3. 粉絲專頁不會公開顯示管理員是誰，外人只看得到專頁的建立日期和管理員所在國家。
+
+### 2. 讓應用程式可以管理粉絲專頁
+
+1. 開發者後台 → 你的 IG 應用程式 →「Use cases / 使用案例」→「Add use case」，選 **「Manage everything on your Page」**（管理粉絲專頁上的所有內容）。如果不能加在同一個應用程式，就另建一個應用程式選這個用途。
+2. 確認權限包含 `pages_show_list`、`pages_read_engagement`、`pages_manage_posts`。
+
+### 3. 拿到永久的粉絲專頁權杖
+
+1. 後台上方「Tools → Graph API Explorer」。右側「Meta App」選這個應用程式；「User or Page」選「Get User Access Token」，勾選上面三個權限，按「Generate Access Token」並同意。
+2. 這是 1 小時的短效權杖。把下面網址的三個 `…` 換掉，貼到瀏覽器打開，換成 60 天的長效使用者權杖：
+   ```
+   https://graph.facebook.com/v21.0/oauth/access_token?grant_type=fb_exchange_token&client_id=…應用程式編號…&client_secret=…應用程式密鑰…&fb_exchange_token=…短效權杖…
+   ```
+3. 再打開這個網址（`…` 換成上一步的長效權杖）：
+   ```
+   https://graph.facebook.com/v21.0/me/accounts?access_token=…長效權杖…
+   ```
+   畫面會列出你的粉絲專頁，裡面的 `access_token` 就是**粉絲專頁權杖，不會過期**。
+4. 存成 GitHub Secret：`FB_PAGE_TOKEN_MAIN`。
+5. 想確認的話，把它貼到「Tools → Access Token Debugger」，「Expires」應該顯示「Never」。
+
+## YouTube 頻道
+
+### 1. 建立頻道
+
+1. 註冊一個**新的 Google 帳號**（新 Gmail），不要用個人帳號。
+2. 登入 YouTube → 右上頭像 →「建立頻道」。名稱填「中華民國文化復興聯盟」，帳號代碼（@）建議和 IG 一致，例如 `@roc_culture_revival`。
+
+### 2. 建立 Google Cloud 專案並開啟 YouTube API
+
+1. 用同一個 Google 帳號打開 https://console.cloud.google.com ，建立新專案，例如 `roc-autopost`。
+2. 「API 和服務 → 程式庫」，搜尋 **YouTube Data API v3**，按「啟用」。
+3. 「API 和服務 → OAuth 同意畫面」：使用者類型選「外部」，應用程式名稱隨意，支援信箱填新 Gmail。
+   - 範圍（Scopes）加入 `https://www.googleapis.com/auth/youtube.upload`。
+   - 「測試使用者」加入你的新 Gmail。
+   - **最後按「發布應用程式」改成「正式版」。**維持「測試中」的話，權杖每 7 天就會失效。發布時會說應用程式未經驗證，自己用沒關係，不需要送審。
+4. 「API 和服務 → 憑證 → 建立憑證 → OAuth 用戶端 ID」：類型選「網頁應用程式」，「已授權的重新導向 URI」加入 `https://developers.google.com/oauthplayground`。建好後記下**用戶端 ID** 和**用戶端密鑰**。
+
+### 3. 拿到 refresh token（長期有效）
+
+1. 打開 https://developers.google.com/oauthplayground 。
+2. 右上齒輪 → 勾「Use your own OAuth credentials」，貼上用戶端 ID 和密鑰。
+3. 左邊最下面「Input your own scopes」輸入 `https://www.googleapis.com/auth/youtube.upload`，按「Authorize APIs」，用新 Gmail 登入並允許。看到「Google 尚未驗證這個應用程式」時，按「進階 → 前往（不安全）」，因為這是你自己的應用程式。
+4. 按「Exchange authorization code for tokens」，複製 **Refresh token**。
+
+### 4. 存進 GitHub Secrets
+
+| Name | Secret |
+|---|---|
+| `YT_CLIENT_ID` | 用戶端 ID |
+| `YT_CLIENT_SECRET` | 用戶端密鑰 |
+| `YT_REFRESH_TOKEN_MAIN` | Refresh token |
+
+### 重要限制：新專案上傳的影片會被設成「私人」
+
+Google 規定，2020 年 7 月以後建立、還沒通過稽核的 API 專案，用 API 上傳的影片一律只能是**私人**影片。所以一開始的流程是：
+
+1. 自動上傳成私人影片。
+2. 你到 YouTube Studio 把它改成「公開」，一則大約 10 秒。
+
+想完全自動，要向 Google 申請 API 稽核（YouTube API Services Audit），通常要幾週。頻道穩定後我可以幫你準備申請資料。
+
+`queue.json` 的 YouTube 項目可以加 `"privacy": "private"`（預設是 public，但未稽核前一律會變私人）和 `"title"`（不填就用 Reels 標題加 #Shorts）。

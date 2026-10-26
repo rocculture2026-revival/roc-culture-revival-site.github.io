@@ -1,7 +1,8 @@
 """依 queue.json 把到時間、已核准的貼文發到 Instagram 與 Threads。由 .github/workflows/publish.yml 定時執行。
 
 用法：python3 publish.py [--dry-run]
-權杖從環境變數讀：IG_TOKEN_<帳號>、THREADS_TOKEN_<帳號>（例如 IG_TOKEN_MAIN）。
+權杖從環境變數讀：IG_TOKEN_<帳號>、THREADS_TOKEN_<帳號>、FB_PAGE_TOKEN_<帳號>、
+YT_REFRESH_TOKEN_<帳號>（另需 YT_CLIENT_ID、YT_CLIENT_SECRET），例如 IG_TOKEN_MAIN。
 發過的項目記在 posted.json，不會重發。
 """
 import json, os, sys, time, urllib.error, urllib.parse, urllib.request
@@ -14,6 +15,8 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 BASE_URL = os.environ.get("SITE_URL") or "https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io"
 IG = "https://graph.instagram.com/v21.0"
 TH = "https://graph.threads.net/v1.0"
+FB = "https://graph.facebook.com/v21.0"
+YT_UPLOAD = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status"
 DRY = "--dry-run" in sys.argv
 
 ARTICLE = {a["slug"]: (i, a) for i, a in enumerate(ARTICLES, 1)}
@@ -109,6 +112,65 @@ def post_threads(item, token):
     return f"Threads @{me.get('username')} 已發布，id {mid}"
 
 
+def post_facebook(item, token):
+    """發到 Facebook 粉絲專頁：輪播→多圖貼文，Reels→影片。"""
+    text, urls = media(item)
+    for u in urls:
+        check_public(u)
+    if DRY:
+        return f"(試跑) FB {item['kind']}：{len(urls)} 個檔案，說明 {len(text)} 字"
+    page = call("GET", f"{FB}/me", fields="id,name", access_token=token)
+    if item["kind"] == "reel":
+        vid = call("POST", f"{FB}/{page['id']}/videos", file_url=urls[0], description=text, access_token=token)["id"]
+        return f"FB {page.get('name')} 已發布影片，id {vid}"
+    photos = [call("POST", f"{FB}/{page['id']}/photos", url=u, published="false", access_token=token)["id"] for u in urls]
+    attached = {f"attached_media[{i}]": json.dumps({"media_fbid": p}) for i, p in enumerate(photos)}
+    pid = call("POST", f"{FB}/{page['id']}/feed", message=text, access_token=token, **attached)["id"]
+    return f"FB {page.get('name')} 已發布，post id {pid}"
+
+
+def post_youtube(item, refresh_token):
+    """上傳 Reels 影片到 YouTube（直式、60 秒內會自動歸為 Shorts）。"""
+    if item["kind"] != "reel":
+        raise ApiError("YouTube 只能發影片（kind 要是 reel）")
+    r = REEL[item["reel"]]
+    path = os.path.join(ROOT, "docs", "reels", f"{r['slug']}.mp4")
+    privacy = item.get("privacy", "public")
+    title = item.get("title") or f"{r['title']} #Shorts"
+    if DRY:
+        return f"(試跑) YouTube：{os.path.getsize(path) // 1024} KB，標題「{title}」，{privacy}"
+    tok = call("POST", "https://oauth2.googleapis.com/token", client_id=os.environ["YT_CLIENT_ID"],
+               client_secret=os.environ["YT_CLIENT_SECRET"], refresh_token=refresh_token,
+               grant_type="refresh_token")["access_token"]
+    meta = {"snippet": {"title": title[:100], "description": r["caption"], "categoryId": "27",
+                        "defaultLanguage": "zh-Hant", "tags": ["中華民國", "三民主義", "中華文化", "歷史"]},
+            "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False}}
+    body = json.dumps(meta).encode()
+    req = urllib.request.Request(YT_UPLOAD, data=body, method="POST", headers={
+        "Authorization": f"Bearer {tok}", "Content-Type": "application/json; charset=UTF-8",
+        "X-Upload-Content-Type": "video/mp4", "X-Upload-Content-Length": str(os.path.getsize(path))})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            loc = resp.headers["Location"]
+        with open(path, "rb") as f:
+            up = urllib.request.Request(loc, data=f.read(), method="PUT", headers={
+                "Authorization": f"Bearer {tok}", "Content-Type": "video/mp4"})
+        with urllib.request.urlopen(up, timeout=600) as resp:
+            vid = json.load(resp)["id"]
+    except urllib.error.HTTPError as e:
+        raise ApiError(f"YouTube {e.code}\n{e.read().decode(errors='replace')}") from None
+    return f"YouTube 已上傳（{privacy}），https://youtube.com/shorts/{vid}"
+
+
+# platform → (權杖環境變數前綴, 發文函式)
+PLATFORMS = {
+    "instagram": ("IG_TOKEN", post_instagram),
+    "threads": ("THREADS_TOKEN", post_threads),
+    "facebook": ("FB_PAGE_TOKEN", post_facebook),
+    "youtube": ("YT_REFRESH_TOKEN", post_youtube),
+}
+
+
 def main():
     queue = json.load(open(os.path.join(ROOT, "queue.json")))
     posted_path = os.path.join(ROOT, "posted.json")
@@ -124,14 +186,13 @@ def main():
         if item.get("expires") and datetime.fromisoformat(item["expires"]) < now:
             print(f"略過 {iid}：已過期（{item['expires']}）")
             continue
-        prefix = "IG_TOKEN" if item["platform"] == "instagram" else "THREADS_TOKEN"
+        prefix, fn = PLATFORMS[item["platform"]]
         token = os.environ.get(f"{prefix}_{item['account'].upper()}")
         if not token:
             print(f"{'注意' if DRY else '略過'} {iid}：還沒設定 {prefix}_{item['account'].upper()}")
             if not DRY:
                 continue
         try:
-            fn = post_instagram if item["platform"] == "instagram" else post_threads
             msg = fn(item, token)
             print(f"✓ {iid}：{msg}")
             if not DRY:
