@@ -70,7 +70,8 @@ def media(item):
     if "article" in item:
         i, a = ARTICLE[item["article"]]
         urls = [f"{BASE_URL}/ig/{i:02d}-{a['slug']}-{j}.jpg" for j in range(1, len(a["ig_slides"]) + 1)]
-        text = a["threads"] if item["platform"] == "threads" else a["ig_caption"]
+        # 臉書和 Threads 的連結點得開，用附網址的 Threads 版；IG 用說明文字版
+        text = a["threads"] if item["platform"] in ("threads", "facebook") else a["ig_caption"]
         return text, urls
     r = REEL[item["reel"]]
     return r["caption"], [f"{BASE_URL}/reels/{r['slug']}.mp4"]
