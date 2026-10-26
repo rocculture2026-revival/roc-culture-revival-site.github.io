@@ -100,7 +100,7 @@ def page_body():
 <section class="index"><h2>文章</h2><ol>{idx}</ol></section>
 {arts}
 </div></main>
-<footer><div class="wrap">© 民國一一五年 {SITE_NAME}。本站內容為本聯盟觀點，歡迎註明出處轉載。</div></footer>
+<footer><div class="wrap">© 民國一一五年 {SITE_NAME}。本站內容為本聯盟觀點，歡迎註明出處轉載。<a href="privacy.html">隱私權政策</a></div></footer>
 """
 
 
