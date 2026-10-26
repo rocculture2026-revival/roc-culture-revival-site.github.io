@@ -233,7 +233,7 @@
     "platform": "facebook",
     "kind": "carousel",
     "article": "manifesto",
-    "approved": true
+    "approved": false
   },
   {
     "id": "04-join-us-ig",

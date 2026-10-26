@@ -16,6 +16,7 @@ BASE_URL = os.environ.get("SITE_URL") or "https://rocculture2026-revival.github.
 IG = "https://graph.instagram.com/v21.0"
 TH = "https://graph.threads.net/v1.0"
 FB = "https://graph.facebook.com/v21.0"
+FB_PAGE_NAME = "中華民國文化復興聯盟"  # 只允許發到這個名稱的粉專
 YT_UPLOAD = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status"
 DRY = "--dry-run" in sys.argv
 
@@ -119,6 +120,10 @@ def post_facebook(item, token):
     for u in urls:
         check_public(u)
     page = call("GET", f"{FB}/me", fields="id,name,category", access_token=token)
+    if page.get("name") != FB_PAGE_NAME:
+        raise ApiError(
+            f"權杖對應的是「{page.get('name')}」，不是粉專「{FB_PAGE_NAME}」，已中止，避免發到錯的帳號。\n"
+            "→ 請在 me/accounts 的清單裡，找 name 是聯盟粉專的那一筆，複製它的 access_token。")
     if not page.get("category"):
         raise ApiError(
             f"權杖屬於個人帳號「{page.get('name')}」，不是粉絲專頁，發文會公開本名，已中止。\n"
