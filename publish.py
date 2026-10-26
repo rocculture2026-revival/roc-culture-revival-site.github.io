@@ -187,6 +187,17 @@ def main():
     posted = json.load(open(posted_path)) if os.path.exists(posted_path) else {}
     now = datetime.now(timezone.utc)
     failed = False
+    if DRY:  # 試跑時先確認每組臉書權杖對到哪個粉專，即使沒有待發項目
+        for k, v in sorted(os.environ.items()):
+            if k.startswith("FB_PAGE_TOKEN_") and v:
+                try:
+                    pg = call("GET", f"{FB}/me", fields="id,name,category", access_token=v)
+                    ok = pg.get("name") == FB_PAGE_NAME and pg.get("category")
+                    print(f"{'✓' if ok else '✗'} {k} 對應粉專「{pg.get('name')}」（{pg.get('category') or '不是粉專'}）")
+                    failed |= not ok
+                except ApiError as e:
+                    print(f"✗ {k}：{e}")
+                    failed = True
     for item in sorted(queue, key=lambda x: x["at"]):
         iid = item["id"]
         if iid in posted or not item.get("approved"):
