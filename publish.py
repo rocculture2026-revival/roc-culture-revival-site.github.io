@@ -136,13 +136,13 @@ def post_youtube(item, refresh_token):
     r = REEL[item["reel"]]
     path = os.path.join(ROOT, "docs", "reels", f"{r['slug']}.mp4")
     privacy = item.get("privacy", "public")
-    title = item.get("title") or f"{r['title']} #Shorts"
+    title = item.get("title") or r.get("yt_title") or f"{r['title']} #Shorts"
     if DRY:
         return f"(試跑) YouTube：{os.path.getsize(path) // 1024} KB，標題「{title}」，{privacy}"
     tok = call("POST", "https://oauth2.googleapis.com/token", client_id=os.environ["YT_CLIENT_ID"],
                client_secret=os.environ["YT_CLIENT_SECRET"], refresh_token=refresh_token,
                grant_type="refresh_token")["access_token"]
-    meta = {"snippet": {"title": title[:100], "description": r["caption"], "categoryId": "27",
+    meta = {"snippet": {"title": title[:100], "description": r.get("yt_description", r["caption"]), "categoryId": "27",
                         "defaultLanguage": "zh-Hant", "tags": ["中華民國", "三民主義", "中華文化", "歷史"]},
             "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False}}
     body = json.dumps(meta).encode()

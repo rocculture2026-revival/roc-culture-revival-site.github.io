@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches: [main]
-    paths: [content.py, reels_content.py, build.py, reels.py, render_ig.js]
+    paths: [content.py, reels_content.py, build.py, reels.py, render_ig.js, music.py]
   workflow_dispatch:
 permissions:
   contents: write
@@ -27,10 +27,12 @@ jobs:
       - name: 產生網站、貼文稿、IG 圖
         run: python3 build.py
       - name: 產生 Reels
+        env:
+          GCP_TTS_KEY: ${{ secrets.GCP_TTS_KEY }}
         run: python3 reels.py
       - name: 提交結果
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs posts
+          git add docs posts assets/tts
           git diff --cached --quiet || (git commit -m "自動重新產生網站與素材" && git pull --rebase && git push)
