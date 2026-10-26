@@ -252,5 +252,14 @@
     "kind": "image",
     "article": "join-us",
     "approved": true
+  },
+  {
+    "id": "01-manifesto-fb-page",
+    "at": "2026-10-26T18:55:00+00:00",
+    "account": "main",
+    "platform": "facebook",
+    "kind": "carousel",
+    "article": "manifesto",
+    "approved": true
   }
 ]
