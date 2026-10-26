@@ -234,5 +234,23 @@
     "kind": "carousel",
     "article": "manifesto",
     "approved": true
+  },
+  {
+    "id": "04-join-us-ig",
+    "at": "2026-10-27T09:00:00+08:00",
+    "account": "main",
+    "platform": "instagram",
+    "kind": "carousel",
+    "article": "join-us",
+    "approved": false
+  },
+  {
+    "id": "04-join-us-threads",
+    "at": "2026-10-27T09:00:00+08:00",
+    "account": "main",
+    "platform": "threads",
+    "kind": "image",
+    "article": "join-us",
+    "approved": false
   }
 ]
