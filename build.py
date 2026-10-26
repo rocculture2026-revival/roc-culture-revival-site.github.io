@@ -4,6 +4,7 @@ from content import ARTICLES
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE_NAME = "中華民國文化復興聯盟"
+EMAIL = "rocculture2026@gmail.com"
 HANDLE = "roc_culture_revival"  # 帳號註冊後若名稱不同，改這裡
 
 FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">'
@@ -69,6 +70,8 @@ article ol,article ul{padding-left:1.4em}
 footer{border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 footer .wrap{padding-block:24px 40px}
 a{color:var(--plum)}
+.contact{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+.contact a{overflow-wrap:anywhere}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 """
 
@@ -99,6 +102,7 @@ def page_body():
 <section class="about"><h2>關於聯盟</h2><p>本聯盟為民間自發團體，與任何政府機關、政黨或既有組織均無隸屬關係。站上文章皆為本聯盟立場，引用皆附出處。</p></section>
 <section class="index"><h2>文章</h2><ol>{idx}</ol></section>
 {arts}
+<section class="about contact" id="contact"><h2>聯絡我們</h2><p>合作、投稿或指正，歡迎來信：<a href="mailto:{EMAIL}">{EMAIL}</a></p></section>
 </div></main>
 <footer><div class="wrap">© 民國一一五年 {SITE_NAME}。本站內容為本聯盟觀點，歡迎註明出處轉載。<a href="privacy.html">隱私權政策</a></div></footer>
 """
