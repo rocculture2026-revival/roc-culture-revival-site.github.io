@@ -27,7 +27,8 @@ class ApiError(Exception):
     pass
 
 
-def call(method, url, **params):
+def call(method, endpoint, **params):
+    url = endpoint
     data = urllib.parse.urlencode(params).encode()
     if method == "GET":
         url, data = f"{url}?{data.decode()}", None
