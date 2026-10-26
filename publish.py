@@ -118,9 +118,13 @@ def post_facebook(item, token):
     text, urls = media(item)
     for u in urls:
         check_public(u)
+    page = call("GET", f"{FB}/me", fields="id,name,category", access_token=token)
+    if not page.get("category"):
+        raise ApiError(
+            f"權杖屬於個人帳號「{page.get('name')}」，不是粉絲專頁，發文會公開本名，已中止。\n"
+            "→ 請照 SETUP-autopost.md「拿到永久的粉絲專頁權杖」第 3 步，改用 me/accounts 裡面粉專的 access_token。")
     if DRY:
-        return f"(試跑) FB {item['kind']}：{len(urls)} 個檔案，說明 {len(text)} 字"
-    page = call("GET", f"{FB}/me", fields="id,name", access_token=token)
+        return f"(試跑) FB 粉專「{page['name']}」{item['kind']}：{len(urls)} 個檔案，說明 {len(text)} 字"
     if item["kind"] == "reel":
         vid = call("POST", f"{FB}/{page['id']}/videos", file_url=urls[0], description=text, access_token=token)["id"]
         return f"FB {page.get('name')} 已發布影片，id {vid}"
