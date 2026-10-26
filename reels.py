@@ -58,11 +58,17 @@ def build(reel):
     out_dir = os.path.join(ROOT, "docs", "reels")
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, f"{reel['slug']}.mp4")
-    # 加一條無聲音軌：IG 的 Reels 規格要求 AAC 音訊
+    # 配樂：assets/ 下的原創國風配樂（music.py 產生），結尾 2 秒淡出；reel 可用 "music": null 改成無聲
     total = sum(c["sec"] for c in cards) - FADE * (len(cards) - 1)
-    args += ["-f", "lavfi", "-t", f"{total:.2f}", "-i", "anullsrc=r=44100:cl=stereo"]
+    music = reel.get("music", "bgm-pentatonic.m4a")
+    if music:
+        args += ["-stream_loop", "-1", "-i", os.path.join(ROOT, "assets", music)]
+        filt.append(f"[{len(cards)}:a]atrim=0:{total:.2f},afade=t=out:st={total - 2:.2f}:d=2[a]")
+    else:
+        args += ["-f", "lavfi", "-t", f"{total:.2f}", "-i", "anullsrc=r=44100:cl=stereo"]
+        filt.append(f"[{len(cards)}:a]anull[a]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args, "-filter_complex", ";".join(filt), "-map", f"[{last}]",
-                    "-map", f"{len(cards)}:a", "-c:a", "aac", "-b:a", "128k", "-shortest",
+                    "-map", "[a]", "-c:a", "aac", "-b:a", "128k", "-shortest",
                     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-profile:v", "high", "-r", "30", "-movflags", "+faststart", out], check=True)
     open(os.path.join(out_dir, f"{reel['slug']}.txt"), "w").write(reel["caption"])
     print(out)
