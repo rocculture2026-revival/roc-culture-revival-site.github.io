@@ -242,7 +242,7 @@
     "platform": "instagram",
     "kind": "carousel",
     "article": "join-us",
-    "approved": false
+    "approved": true
   },
   {
     "id": "04-join-us-threads",
@@ -251,6 +251,6 @@
     "platform": "threads",
     "kind": "image",
     "article": "join-us",
-    "approved": false
+    "approved": true
   }
 ]
