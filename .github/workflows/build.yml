@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches: [main]
-    paths: [content.py, reels_content.py, build.py, reels.py, render_ig.js, music.py]
+    paths: [content.py, reels_content.py, build.py, reels.py, render_ig.js, music.py, maps.py, assets/geo/**]
   workflow_dispatch:
 permissions:
   contents: write
