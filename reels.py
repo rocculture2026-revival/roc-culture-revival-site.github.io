@@ -81,6 +81,8 @@ def build(reel):
         v = tts(c["say"]) if c.get("say") else None
         if v:
             c["sec"] = max(c["sec"], duration(v) + 0.6)
+        elif c.get("say") and not c.get("end"):
+            c["sec"] = max(c["sec"], 1.2 + len(c["say"]) / 6)  # 無旁白：留足閱讀時間（約每秒 6 字）
         voices.append(v)
     if any(c.get("say") for c in cards) and not any(voices):
         print(f"注意 {reel['slug']}：沒有 GCP_TTS_KEY，先做無旁白版（字幕照常顯示）")

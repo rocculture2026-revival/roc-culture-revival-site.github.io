@@ -66,7 +66,7 @@
   },
   {
     "id": "02-three-principles-ig",
-    "at": "2026-10-26T20:00:00+08:00",
+    "at": "2026-11-01T12:00:00+08:00",
     "account": "main",
     "platform": "instagram",
     "kind": "carousel",
@@ -75,7 +75,7 @@
   },
   {
     "id": "02-three-principles-threads",
-    "at": "2026-10-26T20:00:00+08:00",
+    "at": "2026-11-01T12:00:00+08:00",
     "account": "main",
     "platform": "threads",
     "kind": "image",
@@ -92,139 +92,6 @@
     "privacy": "private",
     "title": "（測試）10 月 25 日是什麼日子？ #Shorts",
     "approved": true
-  },
-  {
-    "id": "reel-2026-10-27-ep1-founding-ig",
-    "at": "2026-10-27T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-10-27-ep1-founding",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-27-ep1-founding-yt",
-    "at": "2026-10-27T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-10-27-ep1-founding",
-    "privacy": "private",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-28-ep2-northern-expedition-ig",
-    "at": "2026-10-28T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-10-28-ep2-northern-expedition",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-28-ep2-northern-expedition-yt",
-    "at": "2026-10-28T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-10-28-ep2-northern-expedition",
-    "privacy": "private",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-29-ep3-july-seventh-ig",
-    "at": "2026-10-29T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-10-29-ep3-july-seventh",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-29-ep3-july-seventh-yt",
-    "at": "2026-10-29T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-10-29-ep3-july-seventh",
-    "privacy": "private",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-30-ep4-victory-ig",
-    "at": "2026-10-30T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-10-30-ep4-victory",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-30-ep4-victory-yt",
-    "at": "2026-10-30T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-10-30-ep4-victory",
-    "privacy": "private",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-31-special-chiang-ig",
-    "at": "2026-10-31T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-10-31-special-chiang",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-10-31-special-chiang-yt",
-    "at": "2026-10-31T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-10-31-special-chiang",
-    "privacy": "private",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-11-01-ep5-1949-ig",
-    "at": "2026-11-01T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-11-01-ep5-1949",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-11-01-ep5-1949-yt",
-    "at": "2026-11-01T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-11-01-ep5-1949",
-    "privacy": "private",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-11-02-ep6-democracy-ig",
-    "at": "2026-11-02T20:00:00+08:00",
-    "account": "promo",
-    "platform": "instagram",
-    "kind": "reel",
-    "reel": "2026-11-02-ep6-democracy",
-    "approved": false
-  },
-  {
-    "id": "reel-2026-11-02-ep6-democracy-yt",
-    "at": "2026-11-02T20:00:00+08:00",
-    "account": "main",
-    "platform": "youtube",
-    "kind": "reel",
-    "reel": "2026-11-02-ep6-democracy",
-    "privacy": "private",
-    "approved": false
   },
   {
     "id": "01-manifesto-fb",
@@ -279,5 +146,147 @@
     "kind": "carousel",
     "article": "join-us",
     "approved": true
+  },
+  {
+    "id": "reel-2026-10-28-ep1-founding-ig",
+    "at": "2026-10-28T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-10-28-ep1-founding",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-28-ep1-founding-yt",
+    "at": "2026-10-28T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-10-28-ep1-founding",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-29-ep2-northern-expedition-ig",
+    "at": "2026-10-29T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-10-29-ep2-northern-expedition",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-29-ep2-northern-expedition-yt",
+    "at": "2026-10-29T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-10-29-ep2-northern-expedition",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-30-ep3-july-seventh-ig",
+    "at": "2026-10-30T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-10-30-ep3-july-seventh",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-30-ep3-july-seventh-yt",
+    "at": "2026-10-30T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-10-30-ep3-july-seventh",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-31-ep4-resistance-ig",
+    "at": "2026-10-31T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-10-31-ep4-resistance",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-10-31-ep4-resistance-yt",
+    "at": "2026-10-31T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-10-31-ep4-resistance",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-11-01-ep5-victory-ig",
+    "at": "2026-11-01T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-11-01-ep5-victory",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-11-01-ep5-victory-yt",
+    "at": "2026-11-01T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-11-01-ep5-victory",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-11-02-ep6-1949-ig",
+    "at": "2026-11-02T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-11-02-ep6-1949",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-11-02-ep6-1949-yt",
+    "at": "2026-11-02T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-11-02-ep6-1949",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-11-03-ep7-democracy-ig",
+    "at": "2026-11-03T20:00:00+08:00",
+    "account": "promo",
+    "platform": "instagram",
+    "kind": "reel",
+    "reel": "2026-11-03-ep7-democracy",
+    "approved": false
+  },
+  {
+    "id": "reel-2026-11-03-ep7-democracy-yt",
+    "at": "2026-11-03T20:00:00+08:00",
+    "account": "main",
+    "platform": "youtube",
+    "kind": "reel",
+    "reel": "2026-11-03-ep7-democracy",
+    "privacy": "private",
+    "approved": false
+  },
+  {
+    "id": "02-three-principles-fb",
+    "at": "2026-11-01T12:00:00+08:00",
+    "account": "main",
+    "platform": "facebook",
+    "kind": "carousel",
+    "article": "three-principles",
+    "approved": false
   }
 ]
