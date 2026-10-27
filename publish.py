@@ -38,7 +38,7 @@ def call(method, endpoint, **params):
             return json.load(r)
     except urllib.error.HTTPError as e:
         body = e.read().decode(errors="replace")
-        if "access token" in body.lower() or "OAuthException" in body:
+        if "access token" in body.lower() or ('"code":190' in body):
             body += "\n→ 權杖可能過期或沒有發文權限，請照 SETUP-autopost.md 第 5 步重新產生並更新 Secrets。"
         raise ApiError(f"{e.code} {url.split('?')[0]}\n{body}") from None
 
@@ -111,6 +111,7 @@ def post_threads(item, token):
         params = {"media_type": "VIDEO", "video_url": urls[0], "text": text}
     cid = call("POST", f"{TH}/{me['id']}/threads", access_token=token, **params)["id"]
     wait_ready(f"{TH}/{cid}", token, "status")
+    time.sleep(30)  # Threads 建議容器完成後再等一下才發布，太快會回「Media Not Found」
     mid = call("POST", f"{TH}/{me['id']}/threads_publish", creation_id=cid, access_token=token)["id"]
     return f"Threads @{me.get('username')} 已發布，id {mid}"
 
