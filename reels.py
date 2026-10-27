@@ -6,6 +6,7 @@
 import base64, hashlib, html, json, os, subprocess, sys, urllib.request
 from build import FONTS, PLUM, SITE_NAME
 from reels_content import REELS
+from maps import svg_map
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 FADE = 0.4
@@ -26,6 +27,10 @@ h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:124px;line-height
 .sub{position:absolute;left:70px;right:70px;bottom:330px;font-size:50px;line-height:1.5;font-weight:700;color:#fff;
   background:rgba(10,14,30,.72);padding:22px 32px;border-radius:14px;text-align:center}
 .c.end .sub{color:#fff}
+.c.m{justify-content:flex-start;padding-top:200px;gap:30px}
+.c.m h1{font-size:92px;line-height:1.2}
+.map{margin:6px -10px 0;border-radius:28px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.12)}
+.map svg{display:block;width:880px;height:800px}
 """
 VOICE = {"languageCode": "cmn-TW", "name": "cmn-TW-Wavenet-C"}  # 臺灣口音男聲；女聲可改 cmn-TW-Wavenet-A
 TTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "tts")
@@ -63,12 +68,14 @@ def card_html(c, i, n):
     inner = (PLUM if end else "") + f'<div class="k">{e(c["kicker"])}</div><h1>{e(c["head"])}</h1>'
     if c.get("body"):
         inner += f'<div class="b">{e(c["body"])}</div>'
+    if c.get("map"):
+        inner += f'<div class="map">{svg_map(c["map"])}</div>'
     if not end:
         inner += f'<div class="foot">{SITE_NAME}</div>'
     if c.get("say") and not end:
         inner += f'<div class="sub">{e(c["say"])}</div>'
     bar = f'<div class="bar" style="width:{(i + 1) / n * 100:.1f}%"></div>'
-    return f'<!doctype html><html><head><meta charset="utf-8">{FONTS}<style>{CARD_CSS}</style></head><body><div class="c{" end" if end else ""}{" v" if c.get("say") and not end else ""}">{bar}{inner}</div></body></html>'
+    return f'<!doctype html><html><head><meta charset="utf-8">{FONTS}<style>{CARD_CSS}</style></head><body><div class="c{" end" if end else ""}{" m" if c.get("map") else " v" if c.get("say") and not end else ""}">{bar}{inner}</div></body></html>'
 
 
 def build(reel):
