@@ -71,7 +71,7 @@
     "platform": "instagram",
     "kind": "carousel",
     "article": "three-principles",
-    "approved": false
+    "approved": true
   },
   {
     "id": "02-three-principles-threads",
@@ -80,7 +80,7 @@
     "platform": "threads",
     "kind": "image",
     "article": "three-principles",
-    "approved": false
+    "approved": true
   },
   {
     "id": "yt-test-retrocession",
@@ -154,7 +154,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-10-28-ep1-founding",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-10-28-ep1-founding-yt",
@@ -173,7 +173,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-10-29-ep2-northern-expedition",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-10-29-ep2-northern-expedition-yt",
@@ -192,7 +192,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-10-30-ep3-july-seventh",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-10-30-ep3-july-seventh-yt",
@@ -211,7 +211,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-10-31-ep4-resistance",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-10-31-ep4-resistance-yt",
@@ -230,7 +230,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-11-01-ep5-victory",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-11-01-ep5-victory-yt",
@@ -249,7 +249,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-11-02-ep6-1949",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-11-02-ep6-1949-yt",
@@ -268,7 +268,7 @@
     "platform": "instagram",
     "kind": "reel",
     "reel": "2026-11-03-ep7-democracy",
-    "approved": false
+    "approved": true
   },
   {
     "id": "reel-2026-11-03-ep7-democracy-yt",
@@ -287,6 +287,6 @@
     "platform": "facebook",
     "kind": "carousel",
     "article": "three-principles",
-    "approved": false
+    "approved": true
   }
 ]
