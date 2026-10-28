@@ -3,9 +3,10 @@
 字卡加上 "map": {...} 即可，格式：
   bbox:   [西經度, 南緯度, 東經度, 北緯度]，會自動置中、等比縮放
   points: [{"at": "武昌", "label": "武昌起義", "sub": "1911.10", "hl": True, "pos": "r"}]
-          at 可以是 PLACES 裡的地名或 [經度, 緯度]；pos 是標籤位置 r/l/t/b；hl 表示強調（紅色、較大）
+          at 可以是 PLACES 裡的地名或 [經度, 緯度]；pos 是標籤位置 r/l/t/b；hl 表示強調（較大，預設紅色，color 可改 blue）
   routes: [{"via": ["廣州", "長沙", "武漢"], "dash": False, "hl": True, "label": "北伐路線"}]
   shade:  ["Taiwan"]  要填色強調的陸地（Natural Earth 名稱）
+  colors: {"Taiwan": "blue", "China": "red"}  指定陸地顏色（blue／red 或色碼）
 """
 import html, json, math, os
 
@@ -23,6 +24,7 @@ PLACES = {  # 經度, 緯度
 }
 
 SEA, LAND, LAND_HL, RIVER = "#101a3e", "#37508f", "#a23344", "#6f8fd6"
+LAND_BLUE = "#2f6fe0"
 RED, GOLD, INK, MUTE = "#e0545e", "#f2c14e", "#f4f5f7", "#aab3d0"
 
 
@@ -53,6 +55,7 @@ def svg_map(spec):
     pad = 6
     near = lambda pts: any(x0 - pad < x < x1 + pad and y0 - pad < y < y1 + pad for x, y in pts)
     shade = set(spec.get("shade", []))
+    colors = {k: {"blue": LAND_BLUE, "red": LAND_HL}.get(v, v) for k, v in spec.get("colors", {}).items()}
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
            f'font-family="Noto Sans TC, sans-serif">',
            '<defs><clipPath id="clip"><rect width="100%" height="100%" rx="28"/></clipPath>'
@@ -63,7 +66,7 @@ def svg_map(spec):
            f'<g clip-path="url(#clip)"><rect width="100%" height="100%" fill="{SEA}"/>']
     for f in GEO["land"]:
         if near(f["ring"]):
-            fill = LAND_HL if f["name"] in shade else LAND
+            fill = colors.get(f["name"]) or (LAND_HL if f["name"] in shade else LAND)
             out.append(f'<path d="{_path(f["ring"], p, True)}" fill="{fill}" stroke="{fill}" stroke-width="1"/>')
     for r in GEO["rivers"]:
         if near(r):
@@ -84,8 +87,9 @@ def svg_map(spec):
         x, y = p(*_ll(pt["at"]))
         hl = pt.get("hl")
         if hl:
-            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="26" fill="{RED}" opacity=".3"/>'
-                       f'<circle cx="{x:.1f}" cy="{y:.1f}" r="13" fill="{RED}" stroke="{INK}" stroke-width="4"/>')
+            dot = {"blue": "#4d8bff", "red": RED}.get(pt.get("color", "red"), pt.get("color"))
+            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="26" fill="{dot}" opacity=".3"/>'
+                       f'<circle cx="{x:.1f}" cy="{y:.1f}" r="13" fill="{dot}" stroke="{INK}" stroke-width="4"/>')
         else:
             out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="{MUTE}"/>')
         out.append(_label(x, y, pt.get("label", pt["at"] if isinstance(pt["at"], str) else ""), pt.get("sub"),
