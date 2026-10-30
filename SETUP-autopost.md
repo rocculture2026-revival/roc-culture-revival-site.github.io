@@ -181,3 +181,53 @@ Google 規定，2020 年 7 月以後建立、還沒通過稽核的 API 專案，
 想完全自動，要向 Google 申請 API 稽核（YouTube API Services Audit），通常要幾週。頻道穩定後我可以幫你準備申請資料。
 
 `queue.json` 的 YouTube 項目可以加 `"privacy": "private"`（預設是 public，但未稽核前一律會變私人）和 `"title"`（不填就用 Reels 標題加 #Shorts）。
+
+---
+
+# 加開 X 與 TikTok
+
+兩邊的金鑰一樣只放 GitHub Secrets（儲存庫 → Settings → Secrets and variables → Actions → New repository secret），不要貼到聊天裡。
+
+## X（推特）
+
+**先知道費用**：X 從 2026 年起不再有免費發文額度，改成用多少付多少，要先儲值。發一則一般貼文大約 US$0.015，含網址的貼文大約 US$0.20，所以程式發到 X 的內容一律不放網址。一天兩三則，一個月大約 US$1～2。
+
+1. 用聯盟的 X 帳號登入 https://developer.x.com ，申請開發者帳號。用途照實寫：「發布本團體自己製作的歷史與文化教育內容到本團體自己的帳號，不讀取其他使用者資料」。
+2. 到帳務（Billing）頁面儲值，最低金額就好（例如 US$5～10）。**把自動加值關掉，或設一個每月花費上限**，避免被自動扣大筆金額。
+3. 在你的 App 裡找「User authentication settings → Set up」：
+   - App permissions：**Read and write**
+   - Type of App：**Web App, Automated App or Bot**
+   - Callback URI 和 Website URL 都填：https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io/
+4. 到「Keys and tokens」：
+   - Consumer Keys 的 **API Key** 和 **API Key Secret** → 按 Regenerate，各存一份
+   - Authentication Tokens 的 **Access Token** 和 **Access Token Secret** → 按 Generate，確認下面寫的是「Read and Write」
+   （一定要先做第 3 步再產生 Access Token，不然權限只有唯讀，要重新產生。）
+5. 存進 GitHub Secrets（名稱要一字不差）：
+   - `X_API_KEY`、`X_API_SECRET`
+   - `X_ACCESS_TOKEN_MAIN`、`X_ACCESS_SECRET_MAIN`
+6. 跟 Claude 說「X 設好了」，我會先試跑，再把貼文排進佇列。
+
+## TikTok
+
+**先知道限制**：TikTok 的發文 API 要先通過 TikTok 審核。審核通過前，程式發出去的影片只會是「僅自己可見」，所以這段期間照樣手動上傳，自動發的只當測試。
+
+1. 用聯盟的 TikTok 帳號（或聯盟 Gmail）登入 https://developers.tiktok.com ，建立開發者帳號。
+2. 「Manage apps → Connect an app」建立 App：
+   - App 名稱：中華民國文化復興聯盟發文工具
+   - App icon：用本部頭貼（/mnt/project-files/roc-revival/profile/頭貼-本部.jpg）
+   - Category：Education
+   - Description：Publishes short history and culture videos made by our organization to our own TikTok account. No other users' data is accessed.
+   - Terms of Service URL：https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io/terms.html
+   - Privacy Policy URL：https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io/privacy.html
+   - Platforms：勾 Web，網址填 https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io/
+3. 「Add products」加入兩個：
+   - **Login Kit**：Redirect URI 填 `https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io/tiktok-callback.html`
+   - **Content Posting API**：打開 **Direct Post**
+   - Scopes 確認有 `user.info.basic` 和 `video.publish`
+4. 把 App 頁面上的 **Client key**、**Client secret** 存進 GitHub Secrets：`TIKTOK_CLIENT_KEY`、`TIKTOK_CLIENT_SECRET`。
+5. 審核前要先把聯盟的 TikTok 帳號加成測試帳號：App 頁面切到 **Sandbox**，在「Target users」加入聯盟帳號。
+6. 拿 refresh token（一年有效）：
+   - 用電腦打開 https://rocculture2026-revival.github.io/roc-culture-revival-site.github.io/tiktok-callback.html
+   - 貼上 Client key → 前往授權 → 用聯盟帳號登入並同意
+   - 回到頁面後照畫面上的指令做，把拿到的 refresh_token 存成 `TIKTOK_REFRESH_TOKEN_MAIN`
+7. 跟 Claude 說「TikTok 設好了」，我會先發一支「僅自己可見」的測試影片。成功後你把那支測試的畫面錄下來，跟 App 一起送審（「Submit for review」），審核通過後就能公開發。

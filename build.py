@@ -106,7 +106,7 @@ def page_body():
 {arts}
 <section class="about contact" id="contact"><h2>聯絡我們</h2><p>合作、投稿或指正，歡迎來信：<a href="mailto:{EMAIL}">{EMAIL}</a></p><p>想加入聯盟？請填寫<a href="{JOIN_URL}">報名表單</a>。</p></section>
 </div></main>
-<footer><div class="wrap">© 民國一一五年 {SITE_NAME}。本站內容為本聯盟觀點，歡迎註明出處轉載。<a href="privacy.html">隱私權政策</a></div></footer>
+<footer><div class="wrap">© 民國一一五年 {SITE_NAME}。本站內容為本聯盟觀點，歡迎註明出處轉載。<a href="privacy.html">隱私權政策</a>　<a href="terms.html">服務條款</a></div></footer>
 """
 
 

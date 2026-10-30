@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant-TW"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok 授權｜中華民國文化復興聯盟</title>
+<style>
+:root{--paper:#f4f5f7;--ink:#151c2e;--muted:#59617a;--plum:#b8232f}
+@media (prefers-color-scheme:dark){:root{--paper:#10131c;--ink:#e8eaf0;--muted:#9aa1b5;--plum:#e0545e}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.8}
+main{max-width:720px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-left,0px))}
+h1{font-size:28px} h2{font-size:20px;margin-top:28px} a{color:var(--plum)} .muted{color:var(--muted);font-size:14px}
+</style></head><body><main>
+<h1>TikTok 授權（聯盟內部使用）</h1>
+<div id="start">
+<p>1. 貼上 TikTok 開發者後台的 <b>Client key</b>，按「前往授權」，用聯盟的 TikTok 帳號登入並同意。</p>
+<p><input id="ck" placeholder="Client key" style="width:100%;font-size:16px;padding:8px"></p>
+<p><button id="go" style="font-size:16px;padding:8px 16px">前往授權</button></p>
+</div>
+<div id="done" hidden>
+<p>2. 授權完成。這個授權碼約 10 分鐘內有效，請馬上在自己電腦的終端機（Mac：「終端機」；Windows：PowerShell）貼上下面這行，並把 <b>貼上_CLIENT_SECRET</b> 換成你的 Client secret：</p>
+<pre id="cmd" style="white-space:pre-wrap;word-break:break-all;background:rgba(127,127,127,.15);padding:12px;border-radius:8px"></pre>
+<p><button id="copy" style="font-size:16px;padding:8px 16px">複製指令</button></p>
+<p>3. 執行後會回傳一段文字，複製其中 <code>"refresh_token":"…"</code> 引號裡的值，存到 GitHub Secrets 的 <b>TIKTOK_REFRESH_TOKEN_MAIN</b>。不要貼到聊天或其他地方。</p>
+</div>
+<p class="muted">本頁不會儲存或傳送任何資料，只在你的瀏覽器裡組出指令。</p>
+<script>
+const R = location.origin + location.pathname;
+const q = new URLSearchParams(location.search);
+document.getElementById("go").onclick = () => {
+  const ck = document.getElementById("ck").value.trim();
+  if (!ck) return;
+  location.href = "https://www.tiktok.com/v2/auth/authorize/?" + new URLSearchParams({
+    client_key: ck, scope: "user.info.basic,video.publish", response_type: "code", redirect_uri: R, state: ck});
+};
+if (q.get("code")) {
+  document.getElementById("start").hidden = true;
+  document.getElementById("done").hidden = false;
+  const cmd = `curl -s -X POST https://open.tiktokapis.com/v2/oauth/token/ --data-urlencode "client_key=${q.get("state")}" --data-urlencode "client_secret=貼上_CLIENT_SECRET" --data-urlencode "code=${q.get("code")}" --data-urlencode "grant_type=authorization_code" --data-urlencode "redirect_uri=${R}"`;
+  document.getElementById("cmd").textContent = cmd;
+  document.getElementById("copy").onclick = () => navigator.clipboard.writeText(cmd);
+} else if (q.get("error")) {
+  const p = document.createElement("p");
+  p.style.color = "var(--plum)";
+  p.textContent = "授權失敗：" + (q.get("error_description") || q.get("error"));
+  document.getElementById("start").prepend(p);
+}
+</script>
+</main></body></html>

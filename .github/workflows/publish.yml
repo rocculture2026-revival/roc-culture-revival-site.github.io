@@ -1,4 +1,4 @@
-# 每 30 分鐘檢查 queue.json，把到時間、approved 為 true 的貼文發到 IG／Threads，結果記在 posted.json。
+# 每 30 分鐘檢查 queue.json，把到時間、approved 為 true 的貼文發到各平台，結果記在 posted.json。
 name: publish
 on:
   schedule:
@@ -31,6 +31,13 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN_MAIN: ${{ secrets.YT_REFRESH_TOKEN_MAIN }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN_MAIN: ${{ secrets.X_ACCESS_TOKEN_MAIN }}
+          X_ACCESS_SECRET_MAIN: ${{ secrets.X_ACCESS_SECRET_MAIN }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN_MAIN: ${{ secrets.TIKTOK_REFRESH_TOKEN_MAIN }}
         run: python3 publish.py ${{ inputs.dry_run && '--dry-run' || '' }}
       - name: 記錄已發布
         if: always()

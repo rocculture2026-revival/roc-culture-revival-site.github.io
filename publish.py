@@ -3,6 +3,8 @@
 用法：python3 publish.py [--dry-run]
 權杖從環境變數讀：IG_TOKEN_<帳號>、THREADS_TOKEN_<帳號>、FB_PAGE_TOKEN_<帳號>、
 YT_REFRESH_TOKEN_<帳號>（另需 YT_CLIENT_ID、YT_CLIENT_SECRET），例如 IG_TOKEN_MAIN。
+X 用 X_API_KEY、X_API_SECRET、X_ACCESS_TOKEN_<帳號>、X_ACCESS_SECRET_<帳號>；
+TikTok 用 TIKTOK_REFRESH_TOKEN_<帳號>（另需 TIKTOK_CLIENT_KEY、TIKTOK_CLIENT_SECRET）。
 發過的項目記在 posted.json，不會重發。
 """
 import json, os, sys, time, urllib.error, urllib.parse, urllib.request
@@ -174,12 +176,175 @@ def post_youtube(item, refresh_token):
     return f"YouTube 已上傳（{privacy}），https://youtube.com/shorts/{vid}"
 
 
+def x_weight(text):
+    """X 的字數算法：中日韓文字算 2，其他算 1，上限 280。"""
+    return sum(1 if ord(c) < 0x1100 else 2 for c in text)
+
+
+def x_text(item):
+    """X 版文字：不放網址（含網址的貼文 X 收費較高），超過 280 就截短。"""
+    if item.get("text"):
+        return item["text"]
+    if "article" in item:
+        _, a = ARTICLE[item["article"]]
+        head, body, tags = a["title"], a.get("x") or a["ig_caption"], "#中華民國 #三民主義"
+    else:
+        r = REEL[item["reel"]]
+        head, body, tags = r["title"], r.get("x") or r["caption"].split("\n\n")[0], "#中華民國 #" + r.get("series", "歷史")
+    body = "\n".join(l for l in body.split("\n") if "http" not in l and not l.startswith("#"))
+    room = 280 - x_weight(f"{head}\n\n\n\n{tags}") - 2
+    if x_weight(body) > room:  # 截在最後一個句號或換行，避免斷在句子中間
+        while x_weight(body) > room - 2:
+            body = body[:-1]
+        cut = max(body.rfind(c) for c in "。！？\n")
+        body = (body[:cut + 1] if cut > 0 else body).rstrip() + "⋯"
+    return f"{head}\n\n{body}\n\n{tags}" if body else f"{head}\n\n{tags}"
+
+
+X_ACCT = "MAIN"
+
+
+def oauth1(method, url, query=None):
+    """X 的 OAuth 1.0a 簽章（API Key/Secret＋Access Token/Secret）。"""
+    import base64, hashlib, hmac, secrets as sec
+    ck, cs = os.environ["X_API_KEY"], os.environ["X_API_SECRET"]
+    at, ats = os.environ[f"X_ACCESS_TOKEN_{X_ACCT}"], os.environ[f"X_ACCESS_SECRET_{X_ACCT}"]
+    o = {"oauth_consumer_key": ck, "oauth_nonce": sec.token_hex(16), "oauth_signature_method": "HMAC-SHA1",
+         "oauth_timestamp": str(int(time.time())), "oauth_token": at, "oauth_version": "1.0"}
+    q = lambda v: urllib.parse.quote(str(v), safe="~")
+    allp = {**o, **(query or {})}
+    base = "&".join([method, q(url), q("&".join(f"{q(k)}={q(allp[k])}" for k in sorted(allp)))])
+    o["oauth_signature"] = base64.b64encode(hmac.new(f"{q(cs)}&{q(ats)}".encode(), base.encode(), hashlib.sha1).digest()).decode()
+    return "OAuth " + ", ".join(f'{k}="{q(v)}"' for k, v in sorted(o.items()))
+
+
+def x_req(method, url, json_body=None, files=None, query=None):
+    full = url + ("?" + urllib.parse.urlencode(query) if query else "")
+    headers = {"Authorization": oauth1(method, url, query)}
+    data = None
+    if json_body is not None:
+        data, headers["Content-Type"] = json.dumps(json_body).encode(), "application/json"
+    elif files:
+        b = "----roc" + str(int(time.time() * 1000))
+        parts = []
+        for k, v in files.items():
+            if isinstance(v, bytes):
+                parts.append(f'--{b}\r\nContent-Disposition: form-data; name="{k}"; filename="blob"\r\n'
+                             f"Content-Type: application/octet-stream\r\n\r\n".encode() + v + b"\r\n")
+            else:
+                parts.append(f'--{b}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode())
+        data, headers["Content-Type"] = b"".join(parts) + f"--{b}--\r\n".encode(), f"multipart/form-data; boundary={b}"
+    try:
+        with urllib.request.urlopen(urllib.request.Request(full, data=data, method=method, headers=headers), timeout=300) as r:
+            raw = r.read()
+            return json.loads(raw) if raw else {}
+    except urllib.error.HTTPError as e:
+        body = e.read().decode(errors="replace")
+        if e.code in (401, 403):
+            body += "\n→ 檢查 X 的四個金鑰是否正確、App 權限是否為 Read and Write（改權限後要重新產生 Access Token），以及帳戶是否已儲值。"
+        raise ApiError(f"X {e.code} {url}\n{body}") from None
+
+
+def x_upload(path, mime, category):
+    """X v2 分段上傳圖片或影片，回傳 media id。"""
+    X2 = "https://api.x.com/2/media/upload"
+    size = os.path.getsize(path)
+    mid = x_req("POST", f"{X2}/initialize", {"media_type": mime, "total_bytes": size, "media_category": category})["data"]["id"]
+    with open(path, "rb") as f:
+        i = 0
+        while chunk := f.read(4 * 1024 * 1024):
+            x_req("POST", f"{X2}/{mid}/append", files={"segment_index": str(i), "media": chunk})
+            i += 1
+    info = x_req("POST", f"{X2}/{mid}/finalize").get("data", {}).get("processing_info")
+    for _ in range(60):
+        if not info or info.get("state") == "succeeded":
+            return mid
+        if info.get("state") == "failed":
+            raise ApiError(f"X 影片處理失敗：{info}")
+        time.sleep(info.get("check_after_secs", 5))
+        info = x_req("GET", X2, query={"command": "STATUS", "media_id": mid}).get("data", {}).get("processing_info")
+    raise ApiError("X 影片處理超過時間")
+
+
+def post_x(item, token):
+    """發到 X：Reels→影片，輪播→最多 4 張圖。token 只用來確認已設定。"""
+    global X_ACCT
+    X_ACCT = item["account"].upper()
+    text = x_text(item)
+    if "article" in item:
+        i, a = ARTICLE[item["article"]]
+        files = [(os.path.join(ROOT, "docs", "ig", f"{i:02d}-{a['slug']}-{j}.jpg"), "image/jpeg", "tweet_image")
+                 for j in range(1, min(len(a["ig_slides"]), 4) + 1)]
+    else:
+        files = [(os.path.join(ROOT, "docs", "reels", f"{item['reel']}.mp4"), "video/mp4", "tweet_video")]
+    if DRY:
+        return f"(試跑) X：{len(files)} 個檔案，文字 {x_weight(text)}/280\n{text}"
+    ids = [x_upload(*f) for f in files]
+    tid = x_req("POST", "https://api.x.com/2/tweets", {"text": text, "media": {"media_ids": ids}})["data"]["id"]
+    return f"X 已發布，https://x.com/i/status/{tid}"
+
+
+def post_tiktok(item, refresh_token):
+    """上傳 Reels 到 TikTok。App 通過 TikTok 審核前只能發「僅自己可見」。"""
+    if item["kind"] != "reel":
+        raise ApiError("TikTok 目前只發影片（kind 要是 reel）")
+    r = REEL[item["reel"]]
+    path = os.path.join(ROOT, "docs", "reels", f"{r['slug']}.mp4")
+    privacy = item.get("privacy", "SELF_ONLY")
+    TT = "https://open.tiktokapis.com/v2"
+    tok = call("POST", f"{TT}/oauth/token/", client_key=os.environ["TIKTOK_CLIENT_KEY"],
+               client_secret=os.environ["TIKTOK_CLIENT_SECRET"], grant_type="refresh_token",
+               refresh_token=refresh_token)
+    if "access_token" not in tok:
+        raise ApiError(f"TikTok 換權杖失敗：{tok}\n→ refresh token 一年後會過期，請照 SETUP-autopost.md 的 TikTok 第 4 步重新取得。")
+
+    def tt(endpoint, body):
+        req = urllib.request.Request(f"{TT}{endpoint}", data=json.dumps(body).encode(), method="POST", headers={
+            "Authorization": f"Bearer {tok['access_token']}", "Content-Type": "application/json; charset=UTF-8"})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                out = json.load(resp)
+        except urllib.error.HTTPError as e:
+            raise ApiError(f"TikTok {e.code} {endpoint}\n{e.read().decode(errors='replace')}") from None
+        if out.get("error", {}).get("code") not in (None, "ok"):
+            raise ApiError(f"TikTok {endpoint}：{out['error']}")
+        return out.get("data", {})
+
+    info = tt("/post/publish/creator_info/query/", {})
+    if privacy not in info.get("privacy_level_options", []):
+        raise ApiError(f"TikTok 不允許 {privacy}，可用：{info.get('privacy_level_options')}（App 未過審前只能 SELF_ONLY）")
+    size = os.path.getsize(path)
+    if DRY:
+        return f"(試跑) TikTok @{info.get('creator_username')}：{size // 1024} KB，{privacy}"
+    d = tt("/post/publish/video/init/", {
+        "post_info": {"title": r["caption"][:2000], "privacy_level": privacy, "disable_duet": False,
+                      "disable_comment": False, "disable_stitch": False},
+        "source_info": {"source": "FILE_UPLOAD", "video_size": size, "chunk_size": size, "total_chunk_count": 1}})
+    with open(path, "rb") as f:
+        up = urllib.request.Request(d["upload_url"], data=f.read(), method="PUT", headers={
+            "Content-Type": "video/mp4", "Content-Range": f"bytes 0-{size - 1}/{size}"})
+    try:
+        urllib.request.urlopen(up, timeout=600).read()
+    except urllib.error.HTTPError as e:
+        raise ApiError(f"TikTok 上傳失敗 {e.code}\n{e.read().decode(errors='replace')}") from None
+    for _ in range(60):
+        st = tt("/post/publish/status/fetch/", {"publish_id": d["publish_id"]})
+        if st.get("status") == "PUBLISH_COMPLETE":
+            return f"TikTok 已發布（{privacy}），publish id {d['publish_id']}"
+        if st.get("status") == "FAILED":
+            raise ApiError(f"TikTok 發布失敗：{st}")
+        time.sleep(10)
+    return f"TikTok 已上傳，處理中（{privacy}），publish id {d['publish_id']}"
+
+
 # platform → (權杖環境變數前綴, 發文函式)
 PLATFORMS = {
     "instagram": ("IG_TOKEN", post_instagram),
     "threads": ("THREADS_TOKEN", post_threads),
     "facebook": ("FB_PAGE_TOKEN", post_facebook),
     "youtube": ("YT_REFRESH_TOKEN", post_youtube),
+    "x": ("X_ACCESS_TOKEN", post_x),
+    "tiktok": ("TIKTOK_REFRESH_TOKEN", post_tiktok),
 }
 
 
