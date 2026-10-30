@@ -210,7 +210,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-10-29-ep3-golden-decade",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-29-ep3-golden-decade-yt",
@@ -219,7 +219,7 @@
   "platform": "youtube",
   "kind": "reel",
   "reel": "2026-10-29-ep3-golden-decade",
-  "approved": false,
+  "approved": true,
   "privacy": "private"
  },
  {
@@ -229,35 +229,35 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-10-29-ep3-golden-decade",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-30-ep3-july-seventh-ig",
-  "at": "2026-10-30T17:00:00+08:00",
+  "at": "2026-10-30T19:00:00+08:00",
   "account": "promo",
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-10-30-ep3-july-seventh",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-30-ep3-july-seventh-yt",
-  "at": "2026-10-30T17:00:00+08:00",
+  "at": "2026-10-30T19:00:00+08:00",
   "account": "main",
   "platform": "youtube",
   "kind": "reel",
   "reel": "2026-10-30-ep3-july-seventh",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-30-ep3-july-seventh-fb",
-  "at": "2026-10-30T17:00:00+08:00",
+  "at": "2026-10-30T19:00:00+08:00",
   "account": "main",
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-10-30-ep3-july-seventh",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-31-ep4-resistance-ig",
@@ -266,7 +266,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-10-31-ep4-resistance",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-31-ep4-resistance-yt",
@@ -276,7 +276,7 @@
   "kind": "reel",
   "reel": "2026-10-31-ep4-resistance",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-10-31-ep4-resistance-fb",
@@ -285,7 +285,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-10-31-ep4-resistance",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-01-ep5-victory-ig",
@@ -294,7 +294,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-11-01-ep5-victory",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-01-ep5-victory-yt",
@@ -304,7 +304,7 @@
   "kind": "reel",
   "reel": "2026-11-01-ep5-victory",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-01-ep5-victory-fb",
@@ -313,7 +313,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-11-01-ep5-victory",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-02-ep6-1949-ig",
@@ -322,7 +322,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-11-02-ep6-1949",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-02-ep6-1949-yt",
@@ -332,7 +332,7 @@
   "kind": "reel",
   "reel": "2026-11-02-ep6-1949",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-02-ep6-1949-fb",
@@ -341,7 +341,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-11-02-ep6-1949",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-03-ep7-democracy-ig",
@@ -350,7 +350,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-11-03-ep7-democracy",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-03-ep7-democracy-yt",
@@ -360,7 +360,7 @@
   "kind": "reel",
   "reel": "2026-11-03-ep7-democracy",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-03-ep7-democracy-fb",
@@ -369,7 +369,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-11-03-ep7-democracy",
-  "approved": false
+  "approved": true
  },
  {
   "id": "02-three-principles-fb",
