@@ -294,7 +294,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-11-01-ep5-victory",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-01-ep5-victory-yt",
@@ -304,7 +304,7 @@
   "kind": "reel",
   "reel": "2026-11-01-ep5-victory",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-01-ep5-victory-fb",
@@ -313,7 +313,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-11-01-ep5-victory",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-02-ep6-1949-ig",
@@ -322,7 +322,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-11-02-ep6-1949",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-02-ep6-1949-yt",
@@ -332,7 +332,7 @@
   "kind": "reel",
   "reel": "2026-11-02-ep6-1949",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-02-ep6-1949-fb",
@@ -341,7 +341,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-11-02-ep6-1949",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-03-ep7-democracy-ig",
@@ -350,7 +350,7 @@
   "platform": "instagram",
   "kind": "reel",
   "reel": "2026-11-03-ep7-democracy",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-03-ep7-democracy-yt",
@@ -360,7 +360,7 @@
   "kind": "reel",
   "reel": "2026-11-03-ep7-democracy",
   "privacy": "private",
-  "approved": false
+  "approved": true
  },
  {
   "id": "reel-2026-11-03-ep7-democracy-fb",
@@ -369,7 +369,7 @@
   "platform": "facebook",
   "kind": "reel",
   "reel": "2026-11-03-ep7-democracy",
-  "approved": false
+  "approved": true
  },
  {
   "id": "02-three-principles-fb",
