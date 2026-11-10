@@ -27,6 +27,8 @@ jobs:
           THREADS_TOKEN_MAIN: ${{ secrets.THREADS_TOKEN_MAIN }}
           IG_TOKEN_PROMO: ${{ secrets.IG_TOKEN_PROMO }}
           THREADS_TOKEN_PROMO: ${{ secrets.THREADS_TOKEN_PROMO }}
+          IG_TOKEN_PR: ${{ secrets.IG_TOKEN_PR }}
+          THREADS_TOKEN_PR: ${{ secrets.THREADS_TOKEN_PR }}
           FB_PAGE_TOKEN_MAIN: ${{ secrets.FB_PAGE_TOKEN_MAIN }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
