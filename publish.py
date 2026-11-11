@@ -83,9 +83,9 @@ def post_instagram(item, token):
     text, urls = media(item)
     for u in urls:
         check_public(u)
-    if DRY:
-        return f"(試跑) IG {item['kind']}：{len(urls)} 個檔案，說明 {len(text)} 字"
     me = call("GET", f"{IG}/me", fields="user_id,username", access_token=token)
+    if DRY:
+        return f"(試跑) IG @{me.get('username')} {item['kind']}：{len(urls)} 個檔案，說明 {len(text)} 字"
     uid = me["user_id"]
     if item["kind"] == "reel":
         cid = call("POST", f"{IG}/{uid}/media", media_type="REELS", video_url=urls[0], caption=text,
