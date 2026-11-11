@@ -80,7 +80,7 @@ a{color:var(--plum)}
 def page_body():
     idx = "".join(
         f'<li><a href="#{a["slug"]}"><span class="k">{a["tag"]}・{minguo(a["date"])}</span><span class="t">{html.escape(a["title"])}</span></a></li>'
-        for a in ARTICLES)
+        for a in ARTICLES if a.get("site", True))
     arts = "".join(f"""
 <article id="{a['slug']}">
 <div class="k">{a['tag']}・{minguo(a['date'])}</div>
@@ -88,7 +88,7 @@ def page_body():
 <p class="lede">{html.escape(a['lede'])}</p>
 {a['web']}
 <p class="stance">本文由{SITE_NAME}撰寫，代表本聯盟立場。</p>
-</article>""" for a in ARTICLES)
+</article>""" for a in ARTICLES if a.get("site", True))
     return f"""
 <header class="mast"><div class="wrap">
 <div class="date">{minguo(ARTICLES[0]['date'])}</div>

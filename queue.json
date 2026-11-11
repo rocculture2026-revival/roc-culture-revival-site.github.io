@@ -379,5 +379,14 @@
   "kind": "carousel",
   "article": "three-principles",
   "approved": false
+ },
+ {
+  "id": "pr-05-pr-intro-ig",
+  "at": "2026-11-11T18:00:00+08:00",
+  "account": "pr",
+  "platform": "instagram",
+  "kind": "carousel",
+  "article": "pr-intro",
+  "approved": false
  }
 ]
